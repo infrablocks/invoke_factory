@@ -295,6 +295,26 @@ namespace :library do
 end
 
 namespace :repository do
+  task :set_ci_author do
+    Lino
+      .builder_for_command('git')
+      .with_subcommand('config') do |sub|
+        sub.with_flag("--global")
+           .with_option("user.name", "InfraBlocks CI")
+      end
+      .build
+      .execute
+
+    Lino
+      .builder_for_command('git')
+      .with_subcommand('config') do |sub|
+        sub.with_flag("--global")
+           .with_option("user.email", "ci@infrablocks.com")
+      end
+      .build
+      .execute
+  end
+
   task :commit_release do
     version = read_poetry_version()
 
