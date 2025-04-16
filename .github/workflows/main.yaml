@@ -38,3 +38,9 @@ jobs:
         uses: ./.github/actions/asdf_install
       - name: Authenticate with PyPi
         run: ./go poetry:login_to_pypi[${{ secrets.PYPI_API_KEY }}]
+      - name: Publish
+        run: ./go library:publish:prerelease
+      - name: Commit Release
+        run: ./go repository:commit_release
+      - name: Push Release Commit
+        run: ./go repository:push

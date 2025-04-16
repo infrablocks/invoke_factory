@@ -9,6 +9,7 @@ require 'rake_github'
 require 'rake_gpg'
 require 'rake_ssh'
 require 'rubocop/rake_task'
+require 'tempfile'
 require 'yaml'
 
 task default: %i[
@@ -291,6 +292,42 @@ namespace :library do
       Rake::Task['library:publish'].invoke
     end
   end
+end
+
+namespace :repository do
+  task :commit_release do
+    version = read_poetry_version()
+
+    Lino
+      .builder_for_command('git')
+      .with_subcommand('commit') do |sub|
+        sub.with_flag('-a')
+           .with_option("-m", "\"Bump version to #{version} for prerelease [no ci]\"")
+      end
+      .build
+      .execute
+  end
+
+  task :push do
+    Lino
+      .builder_for_command('git')
+      .with_subcommand('push')
+      .build
+      .execute
+  end
+end
+
+def read_poetry_version()
+  stdout = Tempfile.new
+
+  Lino
+    .builder_for_command('poetry')
+    .with_arguments(['version'])
+    .build
+    .execute(stdout: stdout)
+
+  stdout.rewind
+  version = stdout.read.split(' ')[1]
 end
 
 def invoke_poetry_task(task_name, *args)
