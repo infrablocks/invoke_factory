@@ -189,7 +189,7 @@ end
 
 namespace :poetry do
   desc 'Login to PyPI'
-  task :login_to_pypi, [api_token] do |_, args|
+  task :login_to_pypi, [:api_token] do |_, args|
 
     invoke_poetry_command(
       'config', 'pypi-token.pypi', args.api_token
