@@ -3,7 +3,7 @@ requires-python = ">=3.13,<4.0"
 
 [tool.poetry]
 name = "infrablocks.invoke_factory"
-version = "0.0.2"
+version = "0.0.3a0"
 description = "Base classes and modules to aid in creating custom invoke tasks."
 authors = [
     "Toby Clemson <tobyclemson@gmail.com>",
