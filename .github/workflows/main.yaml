@@ -8,20 +8,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: asdf-vm/actions/install@9cd779f40fe38688dd19505ccbc4eaaf018b44e7
+      - name: Install tools
+        uses: ./.github/actions/asdf_install
       - name: Test
         run: ./go library:check
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: asdf-vm/actions/install@9cd779f40fe38688dd19505ccbc4eaaf018b44e7
+      - name: Install tools
+        uses: ./.github/actions/asdf_install
       - name: Test
         run: ./go library:test:all
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: asdf-vm/actions/install@9cd779f40fe38688dd19505ccbc4eaaf018b44e7
+      - name: Install tools
+        uses: ./.github/actions/asdf_install
       - name: Test
         run: ./go library:build
