@@ -189,12 +189,10 @@ end
 
 namespace :poetry do
   desc 'Login to PyPI'
-  task :login_to_pypi do
-    pypi_config =
-      YAML.load_file('config/secrets/pypi/config.yaml')
+  task :login_to_pypi[api_token] do |_, args|
 
     invoke_poetry_command(
-      'config', 'pypi-token.pypi', pypi_config['pypi_api_token']
+      'config', 'pypi-token.pypi', args.api_token
     )
   end
 end
