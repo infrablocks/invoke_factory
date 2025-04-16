@@ -126,7 +126,7 @@ commands:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - "SHA256:AFEm89FB9Oa3D7j0UnA7kl0VnL46Z3rgN5wlXYaeJBY"
+            - "SHA256:wJ0UQ3rhCtbxqcpCC7qYgVTkhdKZEuUAAg1hy4pOf8U"
       - run: ./scripts/ci/common/configure-git.sh
 
 jobs:
