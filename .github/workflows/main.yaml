@@ -53,6 +53,7 @@ jobs:
     environment: release
     steps:
       - uses: actions/checkout@v3
+        ref: 'main'
       - name: Install tools
         uses: ./.github/actions/asdf_install
       - name: Authenticate with PyPi
