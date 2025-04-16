@@ -68,24 +68,19 @@ PYTHONDEVMODE = "1"
 
 [tool.poe.tasks.test-report]
 shell = """
-  echo "\\nmerging xml\\n" \
   junitparser merge \
     reports/*.junit.xml \
     reports/all.junit.xml
-  echo "\\ncombining coverage files\\n" \
   coverage combine \
     --keep \
     --data-file=./reports/coverage/.coverage \
-    reports/coverage/unit/.coverage \
-  echo "\\n\\nwriting coverage html for all\\n" \
+    reports/coverage/unit/.coverage
   coverage html \
     --data-file=./reports/coverage/.coverage \
     --directory=./reports/coverage/all
-  echo "\\nwriting coverage xml for all\\n" \
   coverage xml \
     --data-file=./reports/coverage/.coverage \
     -o ./reports/coverage/all/coverage.xml
-  echo "\\ncreating coverage report\\n" \
   coverage report \
     --data-file=./reports/coverage/.coverage
 """
