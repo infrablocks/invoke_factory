@@ -191,7 +191,6 @@ end
 namespace :poetry do
   desc 'Login to PyPI'
   task :login_to_pypi, [:api_token] do |_, args|
-
     invoke_poetry_command(
       'config', 'pypi-token.pypi', args.api_token
     )
@@ -295,12 +294,13 @@ namespace :library do
 end
 
 namespace :repository do
+  desc 'Sets the git author for CI'
   task :set_ci_author do
     Lino
       .builder_for_command('git')
       .with_subcommand('config') do |sub|
-        sub.with_flag("--global")
-           .with_option("user.name", "InfraBlocks CI")
+        sub.with_flag('--global')
+          .with_option('user.name', 'InfraBlocks CI')
       end
       .build
       .execute
@@ -308,26 +308,31 @@ namespace :repository do
     Lino
       .builder_for_command('git')
       .with_subcommand('config') do |sub|
-        sub.with_flag("--global")
-           .with_option("user.email", "ci@infrablocks.com")
+        sub.with_flag('--global')
+          .with_option('user.email', 'ci@infrablocks.com')
       end
       .build
       .execute
   end
 
+  desc 'commits the version bump'
   task :commit_release do
-    version = read_poetry_version()
+    version = read_poetry_version
 
     Lino
       .builder_for_command('git')
       .with_subcommand('commit') do |sub|
         sub.with_flag('-a')
-           .with_option("-m", "\"Bump version to #{version} for prerelease [no ci]\"")
+          .with_option(
+            '-m',
+            "\"Bump version to #{version} for prerelease [no ci]\""
+          )
       end
       .build
       .execute
   end
 
+  desc 'pushes the branch'
   task :push do
     Lino
       .builder_for_command('git')
@@ -337,7 +342,7 @@ namespace :repository do
   end
 end
 
-def read_poetry_version()
+def read_poetry_version
   stdout = Tempfile.new
 
   Lino
@@ -347,7 +352,7 @@ def read_poetry_version()
     .execute(stdout: stdout)
 
   stdout.rewind
-  version = stdout.read.split(' ')[1]
+  stdout.read.split[1]
 end
 
 def invoke_poetry_task(task_name, *args)
