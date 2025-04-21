@@ -1,6 +1,7 @@
 from typing import Iterable
 from unittest.mock import Mock
 
+from invoke.collection import Collection
 from invoke.context import Context
 
 from infrablocks.invoke_factory.task_factory import (
@@ -53,3 +54,14 @@ class TestTaskFactory:
 
         args, _ = mock_task.call_args
         assert args[1]["foo"] == 100
+
+    def test_created_task_can_be_added_to_collection(self):
+        parameters: Iterable[Parameter] = [{"name": "foo"}]
+        mock_task = Mock()
+        mock_task.__name__ = "mock_task"
+        collection = Collection()
+
+        task = create_task(mock_task, parameters)
+        collection.add_task(task)
+
+        assert len(collection.tasks) == 1
