@@ -1,5 +1,6 @@
 import inspect
-from typing import Any, Callable, Iterable, NotRequired, TypedDict, Union, cast
+from collections.abc import Callable, Iterable
+from typing import Any, NotRequired, TypedDict, cast
 
 from invoke.context import Context
 from invoke.tasks import Task
@@ -8,22 +9,22 @@ from invoke.tasks import Task
 class Parameter(TypedDict):
     name: str
     help: NotRequired[str]
-    default: NotRequired[Union[str, int, float, bool]]
+    default: NotRequired[str | int | float | bool | None]
 
 
 def parameter(
-        name: str, help: str = "", default: Union[str, int, float, bool] = None
+    name: str, help: str = "", default: str | int | float | bool | None = None
 ) -> Parameter:
     return Parameter(name=name, help=help, default=default)
 
 
-type Parameters = Iterable[Parameter]
-type Arguments = dict[str, Union[str, int, float, bool]]
+type ParameterList = Iterable[Parameter]
+type Arguments = dict[str, str | int | float | bool]
 type BodyCallable[T] = Callable[[Context, Arguments], T]
 
 
 def create_task[T](
-        body: BodyCallable[T], parameters: Iterable[Parameter] | None = None
+    body: BodyCallable[T], parameters: Iterable[Parameter] | None = None
 ) -> Task[Any]:
     parameters = parameters if parameters is not None else []
     task_body: BodyCallable[T] = _create_task_body(body, parameters)
@@ -31,7 +32,7 @@ def create_task[T](
 
 
 def _create_task_body[T](
-        body: BodyCallable[T], parameters: Parameters, docstring: str = ""
+    body: BodyCallable[T], parameters: ParameterList, docstring: str = ""
 ) -> BodyCallable[T]:
     # Construct the signature from parameters
     param_objects = [
