@@ -1,5 +1,17 @@
-from .task_factory import Arguments, BodyCallable, ParameterList
-from .task_factory import Parameter as Parameter
-from .task_factory import create_task as create_task
+from .task_factory import (
+    Arguments,
+    BodyCallable,
+    create_task,
+    parameter,
+    Parameter,
+    ParameterList
+)
 
-__all__ = ["ParameterList", "Arguments", "BodyCallable"]
+__all__ = [
+    "Arguments",
+    "BodyCallable",
+    "create_task",
+    "parameter",
+    "Parameter",
+    "ParameterList",
+]
