@@ -27,8 +27,12 @@ def create_task[T](
     body: BodyCallable[T], parameters: Iterable[Parameter] | None = None
 ) -> Task[Any]:
     parameters = parameters if parameters is not None else []
+    help = {
+        parameter["name"]: parameter.get("help", "")
+        for parameter in parameters
+    }
     task_body: BodyCallable[T] = _create_task_body(body, parameters)
-    return Task(task_body)
+    return Task(task_body, help=help)
 
 
 def _create_task_body[T](

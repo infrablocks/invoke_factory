@@ -55,6 +55,20 @@ class TestTaskFactory:
         args, _ = mock_task.call_args
         assert args[1]["foo"] == 100
 
+    def test_includes_parameter_help_in_task(self):
+        parameters: Iterable[Parameter] = [
+            {"name": "foo", "help": "Foo help"},
+            {"name": "bar", "help": "Bar help"},
+        ]
+        mock_task = Mock()
+        mock_task.__name__ = "mock_task"
+        task = create_task(mock_task, parameters)
+
+        assert task.help == {
+            "foo": "Foo help",
+            "bar": "Bar help",
+        }
+
     def test_created_task_can_be_added_to_collection(self):
         parameters: Iterable[Parameter] = [{"name": "foo"}]
         mock_task = Mock()
