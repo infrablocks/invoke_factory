@@ -11,20 +11,27 @@ class Parameter(TypedDict):
     default: NotRequired[Union[str, int, float, bool]]
 
 
+def parameter(
+        name: str, help: str = "", default: Union[str, int, float, bool] = None
+) -> Parameter:
+    return Parameter(name=name, help=help, default=default)
+
+
 type Parameters = Iterable[Parameter]
 type Arguments = dict[str, Union[str, int, float, bool]]
 type BodyCallable[T] = Callable[[Context, Arguments], T]
 
 
 def create_task[T](
-    body: BodyCallable[T], parameters: Iterable[Parameter] = []
+        body: BodyCallable[T], parameters: Iterable[Parameter] | None = None
 ) -> Task[Any]:
+    parameters = parameters if parameters is not None else []
     task_body: BodyCallable[T] = _create_task_body(body, parameters)
     return Task(task_body)
 
 
 def _create_task_body[T](
-    body: BodyCallable[T], parameters: Parameters, docstring: str = ""
+        body: BodyCallable[T], parameters: Parameters, docstring: str = ""
 ) -> BodyCallable[T]:
     # Construct the signature from parameters
     param_objects = [
