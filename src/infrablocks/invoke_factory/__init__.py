@@ -1,10 +1,10 @@
 from .task_factory import (
     Arguments,
     BodyCallable,
+    Parameter,
+    ParameterList,
     create_task,
     parameter,
-    Parameter,
-    ParameterList
 )
 
 __all__ = [
