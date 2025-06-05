@@ -69,6 +69,15 @@ class TestTaskFactory:
             "bar": "Bar help",
         }
 
+    def test_retains_docstring_on_body(self):
+        def the_task(context: Context, arguments: Arguments) -> None:
+            """This is a the task description."""
+            pass
+
+        task = create_task(the_task, [])
+
+        assert task.body.__doc__ == "This is a the task description."
+
     def test_created_task_can_be_added_to_collection(self):
         parameters: Iterable[Parameter] = [{"name": "foo"}]
         mock_task = Mock()

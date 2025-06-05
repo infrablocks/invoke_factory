@@ -36,7 +36,7 @@ def create_task[T](
 
 
 def _create_task_body[T](
-    body: BodyCallable[T], parameters: ParameterList, docstring: str = ""
+    body: BodyCallable[T], parameters: ParameterList
 ) -> BodyCallable[T]:
     # Construct the signature from parameters
     param_objects = [
@@ -64,6 +64,6 @@ def _create_task_body[T](
     setattr(new_function, "__signature__", sig)
     # Copy the name and docstring
     new_function.__name__ = body.__name__
-    new_function.__doc__ = docstring
+    new_function.__doc__ = body.__doc__
 
     return cast(BodyCallable[T], new_function)
